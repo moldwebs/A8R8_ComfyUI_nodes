@@ -69,7 +69,7 @@ class Base64ImageOutput:
 
         base64_image = base64.b64encode(buffered.getvalue()).decode()
 
-        return {"ui": {"images": [base64_image]}}
+        return {"ui": {"base64_images": [base64_image]}}
 
 
 # A dictionary that contains all nodes you want to export with their names
