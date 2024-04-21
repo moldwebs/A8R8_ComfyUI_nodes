@@ -71,27 +71,40 @@ class Base64ImageOutput:
 
         return {"ui": {"base64_images": [base64_image]}}
 
-class TextOutput:
+class AlwaysEqualProxy(str):
+    def __eq__(self, _):
+        return True
 
-    def __init__(self):
-        pass
+    def __ne__(self, _):
+        return False
+
+class Base64DebugPrint:
+    """
+    This node prints the input to the console.
+    """
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required":
-                {"boolean": ("BOOLEAN", ), },
-                }
+        return {
+            "required": {
+                "ANY": (AlwaysEqualProxy("*"),),
+                "debug_tag": ("STRING", {
+                    "multiline": False,
+                    "default": ""
+                }),
+            },
+        }
 
     RETURN_TYPES = ()
 
-    FUNCTION = "test"
-
     OUTPUT_NODE = True
+
+    FUNCTION = "debug_print"
 
     CATEGORY = "A8R8"
 
-    def test(self, bool_result):
-        return {"ui": {"bool_result": bool_result}}
+    def debug_print(self, ANY, debug_tag):
+        return {"ui": {str(debug_tag): [str(ANY)]}}
 
 
 # A dictionary that contains all nodes you want to export with their names
@@ -99,12 +112,12 @@ class TextOutput:
 NODE_CLASS_MAPPINGS = {
     "Base64ImageInput": Base64ImageInput,
     "Base64ImageOutput": Base64ImageOutput,
-    "TextOutput": TextOutput
+    "Base64DebugPrint": Base64DebugPrint
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "Base64ImageInput": "Base64Image Input Node",
     "Base64ImageOutput": "Base64Image Output Node",
-    "TextOutput": "TextOutput Output Node"
+    "Base64DebugPrint": "DebugPrint Output Node"
 }
