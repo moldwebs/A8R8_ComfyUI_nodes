@@ -71,16 +71,40 @@ class Base64ImageOutput:
 
         return {"ui": {"base64_images": [base64_image]}}
 
+class TextOutput:
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required":
+                {"boolean": ("BOOLEAN", ), },
+                }
+
+    RETURN_TYPES = ()
+
+    FUNCTION = "test"
+
+    OUTPUT_NODE = True
+
+    CATEGORY = "A8R8"
+
+    def test(self, bool_result):
+        return {"ui": {"bool_result": bool_result}}
+
 
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
     "Base64ImageInput": Base64ImageInput,
-    "Base64ImageOutput": Base64ImageOutput
+    "Base64ImageOutput": Base64ImageOutput,
+    "TextOutput": TextOutput
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "Base64ImageInput": "Base64Image Input Node",
-    "Base64ImageOutput": "Base64Image Output Node"
+    "Base64ImageOutput": "Base64Image Output Node",
+    "TextOutput": "TextOutput Output Node"
 }
